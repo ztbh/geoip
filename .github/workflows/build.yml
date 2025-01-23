@@ -62,6 +62,9 @@ jobs:
         run: |
           go build ./
           ./geoip convert -c ./config.json
+          cd ./output || exit 1
+          echo "payload:" > clash-cncidr.txt
+          cat text/cn.txt | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> clash-cncidr.txt
 
       - name: Verify mmdb files
         run: |
